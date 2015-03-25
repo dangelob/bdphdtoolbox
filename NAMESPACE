@@ -3,4 +3,5 @@
 export(lmlab_eq)
 export(lmlab_eqr2)
 export(lmlab_r2pval)
+export(tc_pval)
 export(xtrct_pval)
