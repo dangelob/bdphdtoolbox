@@ -20,6 +20,16 @@ lmc_exp <- function(y, x){
   m <- lm(log(y)~x)
   return(m)
 }
+#' A function to calculate power model from 2 vectors
+#' 
+#' @param y the variable to explain
+#' @param x the predictor
+#' 
+#' @export
+lmc_pwr <- function(y, x){
+  m <- lm(log(y)~log(x))
+  return(m)
+}
 #' A function to calculate arrhenius model from 2 vectors
 #' 
 #' @param y the variable to explain
@@ -45,15 +55,12 @@ lmc_arr <- function(y, x){
 lmc_sel <- function(y, x, type){
   if(type=="lin"){
     m <- lmc_lin(y, x)
-    # m <- lm(y~x)
   }else if(type=="exp"){
     m <- lmc_exp(y, x)
-    # m <- lm(log(y)~x)
+  }else if(type=="pwr"){
+    m <- lmc_pwr(y, x)
   }else if(type=="arr"){
     m <- lmc_arr(y, x)
-#     Y <- log(y)
-#     X <- 1/(x+273.15)
-#     m <- lm(Y~X)
   }
   return(m)
 }
@@ -76,6 +83,11 @@ lmc_calc_all <- function(y, x, details="all"){
   exp$equation <- "exponential"
   exp$a <- exp(exp$intercept)
   exp$b <- exp$slope
+  #power
+  pwr <- lm_get_std(lmc_pwr(y = y, x = x), details=details)
+  pwr$equation <- "power"
+  pwr$a <- exp(pwd$intercept)
+  pwr$b <- pwr$slope
   #arrhenius
   arr <- lm_get_std(lmc_arr(y = y, x = x), details=details)
   arr$equation <- "arrhenius"
