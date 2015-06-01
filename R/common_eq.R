@@ -65,19 +65,19 @@ lmc_sel <- function(y, x, type){
 #' @param type "lin", "exp" or "arr" for linear, exponential and arrhenius equations
 #' 
 #' @export
-lmc_calc_all <- function(y, x){
+lmc_calc_all <- function(y, x, details="all"){
   #linear
-  lin <- lm_get_std(lmc_lin(y = y, x = x))
+  lin <- lm_get_std(lmc_lin(y = y, x = x), details=details)
   lin$equation <- "linear"
   lin$a <- lin$intercept
   lin$b <- lin$slope
   #exponential
-  exp <- lm_get_std(lmc_exp(y = y, x = x))
+  exp <- lm_get_std(lmc_exp(y = y, x = x), details=details)
   exp$equation <- "exponential"
   exp$a <- exp(exp$intercept)
   exp$b <- exp$slope
   #arrhenius
-  arr <- lm_get_std(lmc_arr(y = y, x = x))
+  arr <- lm_get_std(lmc_arr(y = y, x = x), details=details)
   arr$equation <- "arrhenius"
   arr$a <- exp(exp$intercept)
   arr$b <- -arr$slope*8.314472
