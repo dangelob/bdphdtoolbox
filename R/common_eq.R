@@ -94,7 +94,7 @@ lmc_calc_all <- function(y, x, details="all"){
   arr$a <- exp(exp$intercept)
   arr$b <- -arr$slope*8.314472
   #return all 
-  result <- rbind(rbind(lin, exp), arr)
+  result <- rbind(rbind(lin, exp), rbind(pwr,arr))
   return(result)
 }
 
