@@ -1,17 +1,96 @@
-# Commonly used equations
+# Individual model equations
+
+#' A function to calculate linear model from 2 vectors
+#' 
+#' @param y the variable to explain
+#' @param x the predictor
+#' 
 #' @export
-mdlcalc <- function(y, x, type){
+lmc_lin <- function(y, x){
+  m <- lm(y~x)
+  return(m)
+}
+#' A function to calculate exponential model from 2 vectors
+#' 
+#' @param y the variable to explain
+#' @param x the predictor
+#' 
+#' @export
+lmc_exp <- function(y, x){
+  m <- lm(log(y)~x)
+  return(m)
+}
+#' A function to calculate arrhenius model from 2 vectors
+#' 
+#' @param y the variable to explain
+#' @param x the predictor
+#' 
+#' @export
+lmc_arr <- function(y, x){
+  Y <- log(y)
+  X <- 1/(x+273.15)
+  m <- lm(Y~X)
+  return(m)
+}
+
+# Selection function
+
+#' A function to calculate either linear, exponential or arrhenius model from 2 vectors
+#' 
+#' @param y the variable to explain
+#' @param x the predictor
+#' @param type "lin", "exp" or "arr" for linear, exponential and arrhenius equations
+#' 
+#' @export
+lmc_sel <- function(y, x, type){
   if(type=="lin"){
-    m <- lm(y~x)
+    m <- lmc_lin(y, x)
+    # m <- lm(y~x)
   }else if(type=="exp"){
-    m <- lm(log(y)~x)
+    m <- lmc_exp(y, x)
+    # m <- lm(log(y)~x)
   }else if(type=="arr"){
-    Y <- log(y)
-    X <- 1/(x+273.15)
-    m <- lm(Y~X)
+    m <- lmc_arr(y, x)
+#     Y <- log(y)
+#     X <- 1/(x+273.15)
+#     m <- lm(Y~X)
   }
   return(m)
 }
+
+#' A function to calculate linear, exponential or arrhenius model from 2 vectors and returning a dataframe with parameters
+#' 
+#' @param y the variable to explain
+#' @param x the predictor
+#' @param type "lin", "exp" or "arr" for linear, exponential and arrhenius equations
+#' 
+#' @export
+lmc_calc_all <- function(y, x){
+  #linear
+  lin <- lm_get_std(lmc_lin(y = y, x = x))
+  lin$equation <- "linear"
+  lin$a <- lin$intercept
+  lin$b <- lin$slope
+  #exponential
+  exp <- lm_get_std(lmc_exp(y = y, x = x))
+  exp$equation <- "exponential"
+  exp$a <- exp(exp$intercept)
+  exp$b <- exp$slope
+  #arrhenius
+  arr <- lm_get_std(lmc_arr(y = y, x = x))
+  arr$equation <- "arrhenius"
+  arr$a <- exp(exp$intercept)
+  arr$b <- -arr$slope*8.314472
+  #return all 
+  result <- rbind(rbind(lin, exp), arr)
+  return(result)
+}
+
+#' A function retrieve residuals from different equations
+
+
+
+
 
 
 #' A fonction extract common parameter from a linear model
