@@ -86,7 +86,7 @@ lmc_calc_all <- function(y, x, details="all"){
   #power
   pwr <- lm_get_std(lmc_pwr(y = y, x = x), details=details)
   pwr$equation <- "power"
-  pwr$a <- exp(pwd$intercept)
+  pwr$a <- exp(pwr$intercept)
   pwr$b <- pwr$slope
   #arrhenius
   arr <- lm_get_std(lmc_arr(y = y, x = x), details=details)
