@@ -1,4 +1,5 @@
 #' A fonction to plot multiple variable at once with cor value
+#' found here : http://r-ecology.blogspot.fr/2011/03/for-all-your-pairwise-comparison-needs.html
 #' 
 #' @param x
 #' 
