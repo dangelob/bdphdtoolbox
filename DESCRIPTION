@@ -7,3 +7,4 @@ Author: Benoît D'Angelo
 Maintainer: Benoît D'Angelo <dev@dangelob.eu>
 Description: This is a collection of function that I use for my PhD
 License: CC0
+RoxygenNote: 5.0.1
