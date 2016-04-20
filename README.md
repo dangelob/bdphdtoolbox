@@ -1,14 +1,13 @@
-m70r
+bdphdtoolbox
 ====
   
-  m70r is a toolbox to handle m70 files (hopefully) easily.
-This package was developped for a personnal need, so there is probably plenty rooms for improvement.
+  A toolbox package compiling useful functions (some I have coded, some I have found) used during my PhD. 
 
 You can install: 
   
   * the latest development version from github with (devtools package needed) 
 
 ```r
-devtools::install_github("dangelob/m70r")
+devtools::install_github("dangelob/bdphdtoolbox")
 ```
-* The package is not available on CRAN
+* The package is (obviously) not available on CRAN (and will never be)
