@@ -40,7 +40,11 @@ prd_seldat <- function(df, flux, id_eq){
   df <- as.data.frame(df) # convert df to data.frame (no "tbl_df"...)
   nam <- prd_idfy(id_eq=id_eq)
   nb_var <- as.numeric(nam[2])
+  if(missing(flux)){ # If no flux argument
+  dft <- df[,c(nam[3:length(nam)]), drop=FALSE]
+  }else{ # If a flux argt
   dft <- df[,c(flux, nam[3:length(nam)])]
+  }
   return(dft)
 }
 
@@ -51,8 +55,8 @@ prd_seldat <- function(df, flux, id_eq){
 #' @export
 prd_prpdat <- function(df){
   # dataframe preparation: add generic column names
-  colnam <- c("Y")
-  for(i in 1:(NCOL(df)-1)){
+  colnam <- c()
+  for(i in 1:NCOL(df)){
     colnam <- c(colnam, paste0("X",i))
   }
   colnames(df) <- colnam
@@ -61,13 +65,14 @@ prd_prpdat <- function(df){
 
 #' A fonction to calculate the predicted ER fluxes
 #' 
-#' @param df the dataframe contain the needed variables (depending on the model)
+#' @param df the dataframe contain the needed, AND ONLY THE NEEDED, variables (depending on the model)
 #' @param p the vector containing the calibration parameter from the model
 #' 
 #' @export
 gpER <- function(df, p){
+  df$Y <- NULL # not needed and messes counting as not always here
   nb_par <- length(na.omit(p))
-  nb_var <- NCOL(df)-1
+  nb_var <- NCOL(df)
   if(nb_par == 2 && nb_var == 1){
     # a*exp(b*X1)
     pER <- p[1]*exp(p[2]*df$X1)
@@ -82,13 +87,14 @@ gpER <- function(df, p){
 
 #' A fonction to calculate the predicted ER fluxes
 #' 
-#' @param df the dataframe contain the needed variables (depending on the model)
+#' @param df the dataframe contain the needed, AND ONLY THE NEEDED, variables (depending on the model)
 #' @param p the vector containing the calibration parameter from the model
 #' 
 #' @export
 gpGPPsat <- function(df, p){
+  df$Y <- NULL # not needed and messes counting as not always here
   nb_par <- length(na.omit(p))
-  nb_var <- NCOL(df)-1
+  nb_var <- NCOL(df)
   if(nb_par == 3 && nb_var == 1){
     # a*exp(-(X1-b)/c)^2)
     pGPPsat <- p[1] * exp(-((df$X1-p[2])/p[3])^2)
